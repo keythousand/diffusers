@@ -196,7 +196,7 @@ class StableDiffusionPipeline(
     _optional_components = ["safety_checker", "feature_extractor", "image_encoder"]
     _exclude_from_cpu_offload = ["safety_checker"]
     _callback_tensor_inputs = ["latents", "prompt_embeds", "negative_prompt_embeds"]
-    m_kk_abc="aa bb cc 123"
+    m_kk_abc="aa bb cc 123__q01"
     
     def __init__(
         self,
@@ -895,7 +895,7 @@ class StableDiffusionPipeline(
 
         callback = kwargs.pop("callback", None)
         callback_steps = kwargs.pop("callback_steps", None)
-        print("aaaaaa bbbbbb kkk")
+        print("aaaaaa bbbbbb kkk q1")
         
         if callback is not None:
             deprecate(
@@ -1031,7 +1031,7 @@ class StableDiffusionPipeline(
         self._num_timesteps = len(timesteps)
         with self.progress_bar(total=num_inference_steps) as progress_bar:
             for i, t in enumerate(timesteps):
-                print("ab",i,t)
+                print("abq1",i,t)
                 if self.interrupt:
                     continue
 
@@ -1081,6 +1081,7 @@ class StableDiffusionPipeline(
 
                 if XLA_AVAILABLE:
                     xm.mark_step()
+                imgshow2q(latents)
 
         if not output_type == "latent":
             image = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False, generator=generator)[
