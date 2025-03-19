@@ -196,7 +196,8 @@ class StableDiffusionPipeline(
     _optional_components = ["safety_checker", "feature_extractor", "image_encoder"]
     _exclude_from_cpu_offload = ["safety_checker"]
     _callback_tensor_inputs = ["latents", "prompt_embeds", "negative_prompt_embeds"]
-
+    m_kk_abc="aa bb cc 123"
+    
     def __init__(
         self,
         vae: AutoencoderKL,
@@ -894,7 +895,8 @@ class StableDiffusionPipeline(
 
         callback = kwargs.pop("callback", None)
         callback_steps = kwargs.pop("callback_steps", None)
-
+        print("aaaaaa bbbbbb kkk")
+        
         if callback is not None:
             deprecate(
                 "callback",
@@ -1029,6 +1031,7 @@ class StableDiffusionPipeline(
         self._num_timesteps = len(timesteps)
         with self.progress_bar(total=num_inference_steps) as progress_bar:
             for i, t in enumerate(timesteps):
+                print("ab",i,t)
                 if self.interrupt:
                     continue
 
