@@ -1029,6 +1029,7 @@ class StableDiffusionPipeline(
         # 7. Denoising loop
         num_warmup_steps = len(timesteps) - num_inference_steps * self.scheduler.order
         self._num_timesteps = len(timesteps)
+        list_latents = []
         with self.progress_bar(total=num_inference_steps) as progress_bar:
             for i, t in enumerate(timesteps):
                 print("abq1",i,t)
@@ -1081,7 +1082,8 @@ class StableDiffusionPipeline(
 
                 if XLA_AVAILABLE:
                     xm.mark_step()
-                imgshow2q(latents)
+                #imgshow2q(latents)
+                list_latents.append(latents)
 
         if not output_type == "latent":
             image = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False, generator=generator)[
@@ -1102,6 +1104,6 @@ class StableDiffusionPipeline(
         self.maybe_free_model_hooks()
 
         if not return_dict:
-            return (image, has_nsfw_concept)
+            return (image, has_nsfw_concept,list_latents)
 
         return StableDiffusionPipelineOutput(images=image, nsfw_content_detected=has_nsfw_concept)
